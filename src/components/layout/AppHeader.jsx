@@ -6,7 +6,7 @@ const headerStyle = {
   height: 60,
   paddingInline: 48,
   lineHeight: '64px',
-  backgroundColor: '#4096ff',
+  backgroundColor: '#01070fe8',
 };
 
 export default function AppHeader() {
