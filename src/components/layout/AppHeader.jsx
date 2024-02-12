@@ -1,10 +1,11 @@
-import { Layout, Select, Space } from 'antd';
+import { Layout, Select, Space, Button } from 'antd';
 import { cryptoData } from '../../data';
+import { useCrypto } from '../../context/crypto-context';
 
 const headerStyle = {
   with: '100%',
   textAlign: 'center',
-  // backgroundColor: '#010b1ae8',
+  backgroundColor: '#010b1ae8',
   height: 60,
   padding: '1rem',
   display: 'flex',
@@ -17,25 +18,29 @@ const options = cryptoData.result
 console.log(options)
 
 export default function AppHeader() {
+  const { crypto } = useCrypto()
   return (<Layout.Header style={headerStyle}>
     <Select
-      mode="multiple"
       style={{
-        width: '200px',
+        width: 250,
       }}
-      // placeholder="select one country"
-      defaultValue={[]}
-      // onChange={handleChange}
+      value={'press / to open'}
       optionLabelProp="label"
-      options={options}
+      options={crypto.map(coin => ({
+        label: coin.name,
+        value: coin.id,
+        icon: coin.icon
+      }))}
       optionRender={(option) => (
         <Space>
-          <span role="img" aria-label={option.symbol}>
-            {option.icon}
+          <span>
+            <img style={{ width: 20 }} src={option.data.icon} alt="icon" />
+            {option.data.label}
           </span>
-          {option.name}
         </Space>
       )}
     />
+
+    <Button type="primary">Add Asset</Button>
   </Layout.Header>)
 }
