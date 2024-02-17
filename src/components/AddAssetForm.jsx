@@ -1,22 +1,45 @@
-import { Flex, Select, Space, Form, Input, Checkbox, Button, InputNumber, DatePicker } from "antd"
+import { Flex, Select, Space, Form, Input, Checkbox, Button, InputNumber, DatePicker, Result } from "antd"
 import { useState } from "react"
 import { useCrypto } from "../context/crypto-context"
 
-export default function AddAssetForm() {
+export default function AddAssetForm({ onClose }) {
 
   const { crypto } = useCrypto()
   const [coin, setCoin] = useState(null)
   const [form] = Form.useForm()
-  //
+  const [submitted, setSubmitted] = useState(false)
 
   const onFinish = (values) => {
     console.log('Success:', values);
+    setSubmitted(true)
   };
 
   function handleAmountChange(value) {
     form.setFieldsValue({
       total: +(value * coin.price).toFixed(4) + '$'
     })
+  }
+
+  function handlePriceChange(value) {
+    const amount = form.getFieldValue('amount')
+    form.setFieldsValue({
+      total: +(amount * value).toFixed(4) + '$'
+    })
+  }
+
+  if (submitted) {
+    return (
+      <Result
+        status="success"
+        title="New Asset Added"
+        subTitle={`Added ${form.getFieldValue('total')} of ${coin.name} by price ${form.getFieldValue('price')}`}
+        extra={[
+          <Button type="primary" key="console" onClick={onClose}>
+            Close
+          </Button>,
+        ]}
+      />
+    )
   }
 
   if (!coin) {
@@ -106,7 +129,7 @@ export default function AddAssetForm() {
           label="Price"
           name="price"
         >
-          <InputNumber disabled style={{ width: '100%' }} />
+          <InputNumber onChange={handlePriceChange} style={{ width: '100%' }} />
         </Form.Item>
 
         <Form.Item
