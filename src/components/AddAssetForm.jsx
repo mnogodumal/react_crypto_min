@@ -42,6 +42,8 @@ export default function AddAssetForm({ onClose }) {
     )
   }
 
+  // info
+
   if (!coin) {
     return (
       <Select
