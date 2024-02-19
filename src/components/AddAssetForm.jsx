@@ -1,17 +1,25 @@
 import { Flex, Select, Space, Form, Input, Checkbox, Button, InputNumber, DatePicker, Result } from "antd"
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { useCrypto } from "../context/crypto-context"
 
 export default function AddAssetForm({ onClose }) {
 
-  const { crypto } = useCrypto()
+  const { crypto, addAsset } = useCrypto()
   const [coin, setCoin] = useState(null)
   const [form] = Form.useForm()
   const [submitted, setSubmitted] = useState(false)
+  const assetRef = useRef()
 
   const onFinish = (values) => {
-    console.log('Success:', values);
+    const newAsset = {
+      id: coin.id,
+      amount: values.amount,
+      price: values.price,
+      date: values.data?.$d ?? new Date(),
+    }
+    assetRef.current = newAsset
     setSubmitted(true)
+    addAsset(newAsset)
   };
 
   function handleAmountChange(value) {
@@ -32,7 +40,7 @@ export default function AddAssetForm({ onClose }) {
       <Result
         status="success"
         title="New Asset Added"
-        subTitle={`Added ${form.getFieldValue('total')} of ${coin.name} by price ${form.getFieldValue('price')}`}
+        subTitle={`Added ${assetRef.current.amount} of ${coin.name} by price ${assetRef.current.price}`}
         extra={[
           <Button type="primary" key="console" onClick={onClose}>
             Close
