@@ -22,6 +22,7 @@ export function CryptoCentextProvider({ children }) {
         totalAmount: asset.amount * coin.price,
         totalProfit: asset.amount * coin.price - asset.amount * asset.price,
         name: coin.name,
+        contractAddress: coin.contractAddress,
         ...asset
       }
     })

@@ -16,10 +16,10 @@ const columns = [
     sorter: (a, b) => a.price - b.price,
   },
   {
-    title: 'Amount',
-    dataIndex: 'amount',
-    defaultSortOrder: 'descend',
-    sorter: (a, b) => a.amount - b.amount,
+    title: 'Contract Address',
+    dataIndex: 'contractAddress',
+    // defaultSortOrder: 'descend',
+    // sorter: (a, b) => a.amount - b.amount,
   },
 ];
 
@@ -34,6 +34,7 @@ export default function AssetsTable() {
     name: a.name,
     price: a.price,
     amount: a.amount,
+    contractAddress: a.contractAddress,
   }))
 
   return <Table pagination={false} columns={columns} dataSource={data} />
