@@ -39,3 +39,6 @@ export default function AssetsTable() {
 
   return <Table pagination={false} columns={columns} dataSource={data} />
 }
+
+
+// новый коммит
